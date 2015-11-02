@@ -1,0 +1,11 @@
+.spri-fb-page-slide.widget_dock{
+    margin-top: 7px;
+    width: 95%;
+}
+
+.spri-fb-page-slide p {
+    word-break: keep-all;
+    word-wrap: break-word;
+    max-height: 9em;
+    line-height: 1.5em;
+}

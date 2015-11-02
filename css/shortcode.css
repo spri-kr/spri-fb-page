@@ -1,0 +1,30 @@
+.pull-right {
+    float: right;
+}
+
+.clear-both {
+    clear: both;
+}
+
+.page_nav {
+    text-align: center;
+}
+
+.nav_link {
+    margin: 10px;
+    font-size: 2m;
+}
+
+.tag_list {
+    float: left;
+}
+
+.tag_link {
+    background-color: darkgray;
+}
+
+.post_thumb{
+    float: left;
+    margin-bottom: 1em;
+
+}

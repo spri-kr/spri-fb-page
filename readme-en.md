@@ -73,7 +73,7 @@ Widget configuration page. You can set page id and number of posts will be displ
 ![Imgur](http://i.imgur.com/kksbfZP.jpg)
 
 
-## 프로젝트 구조
+## Project Structure
 
 
 ```

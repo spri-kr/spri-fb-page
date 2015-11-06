@@ -186,7 +186,7 @@ SQL;
 		foreach ( $post_list as $post ) {
 			//if(isset($post->message)){
 
-				$html .= $this->generate_html_frag( $post, $attr['template'] );
+			$html .= $this->generate_html_frag( $post, $attr['template'] );
 			//}
 		}
 
@@ -215,15 +215,14 @@ SQL;
 	private function generate_tag_filter_html( $page_id ) {
 		$html = <<<HTML
 <form id="tag_filter_form" class="pull-right">
-    <label> # 검색
-        <input type="text" id="tag_filter_input" name="t">
-        <input type="hidden" id="page_filter_input" name="page_id" value="{$page_id}">
-    </label>
-    <button type="submit">검색</button>
+    <label class="pull-left" for="tag_filter_input"> # 검색 </label>
+    <input class="pull-left" type="hidden" id="page_filter_input" name="page_id" value="{$page_id}">
+    <input class="pull-left" type="text" id="tag_filter_input" name="t">
+    <button class="pull-left" type="submit">검색</button>
 </form>
 
 <div class="clear-both"></div>
-<hr />
+<hr/>
 HTML;
 
 
@@ -287,6 +286,7 @@ SQL;
 
 	/**
 	 * get post contents
+	 *
 	 * @param $post_list
 	 *
 	 * @return mixed
@@ -296,7 +296,7 @@ SQL;
 		foreach ( $post_list as $post ) {
 			$post_content  = $this->fb->api( $post->post_id . "?fields=picture,message,story", "GET" );
 			$post->message = $post_content['message'];
-			$post->story = $post_content['story'];
+			$post->story   = $post_content['story'];
 			if ( isset( $post_content['picture'] ) ) {
 				$post->picture = $post_content['picture'];
 			}

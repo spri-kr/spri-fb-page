@@ -8,6 +8,7 @@
 
 .page_nav {
     text-align: center;
+    word-break: break-all;
 }
 
 .nav_link {
@@ -28,3 +29,4 @@
     margin-bottom: 1em;
 
 }
+

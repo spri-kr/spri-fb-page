@@ -190,7 +190,7 @@ SQL;
 			//}
 		}
 
-		$tp = (int) count( $raw_post_list ) / $n;
+		$tp = ceil( count( $raw_post_list ) / $n );
 		$html .= $this->generate_paging_navi_html_frag( $t, $pn, $tp );
 
 		return $html;
@@ -322,7 +322,8 @@ SQL;
 
 		$html = "<div class='page_nav'>";
 
-		foreach ( range( 1, $tp + 1 ) as $i ) {
+		foreach ( range( 1, $tp ) as $i ) {
+
 			$html .= "<a class='nav_link' href='?t=$t&pn=$i'>{$i}</a>";
 		}
 

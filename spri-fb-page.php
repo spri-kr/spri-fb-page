@@ -312,7 +312,7 @@ SQL;
 		$html = <<<HTML
 <form id="tag_filter_form" class="pull-right">
     <label class="pull-left" for="tag_filter_input"> # 검색 </label>
-    <input class="pull-left" type="hidden" id="page_filter_input" name="p_id" value="{$page_id}">
+    <input class="pull-left" type="hidden" id="page_filter_input" value="{$page_id}">
     <input class="pull-left" type="text" id="tag_filter_input" name="t">
     <button class="pull-left" type="submit">검색</button>
 </form>

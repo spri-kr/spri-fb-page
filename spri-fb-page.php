@@ -166,8 +166,11 @@ SQL;
 		$page_id = $attr['page_id'];
 		$n       = $attr['number'];
 
-		//TODO 새거면 포스트 크롤링 및 태그 추출 바로 실행
 		$r = $this->insert_page_id_if_new( $page_id );
+
+		if($r){
+			$this->do_cron_job();
+		}
 
 		// initialize html snippet
 		$html = "";

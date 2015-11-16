@@ -13,7 +13,7 @@
 
 .nav_link {
     margin: 10px;
-    font-size: 2m;
+    font-size: 1em;
 }
 
 .tag_list {
@@ -21,7 +21,10 @@
 }
 
 .tag_link {
-    background-color: darkgray;
+    color: #fff;
+    background-color: #999;
+    padding: 3px 6px;
+    border-radius: 3px;
 }
 
 .post_thumb{

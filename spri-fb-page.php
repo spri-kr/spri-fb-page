@@ -162,7 +162,6 @@ SQL;
 			$pn = 0;
 		}
 
-
 		$page_id = $attr['page_id'];
 		$n       = $attr['number'];
 
@@ -177,23 +176,27 @@ SQL;
 
 		$html .= $this->generate_tag_filter_html( $page_id );
 
-		$raw_post_list   = $this->get_posts_by_page_id_and_tag( $page_id, $t );
-		$paged_post_list = array_slice( $raw_post_list, $pn * $n, $n );
-		$post_list       = $this->combine_tags_into_posts( $paged_post_list );
+		$raw_post_list = $this->get_posts_by_page_id_and_tag( $page_id, $t );
+		$post_list     = $this->combine_tags_into_posts( $raw_post_list );
 
-		// It could be done with map.
-		// TODO get post content at front with ajax
 		$post_list = $this->get_posts_content( $post_list );
 
-
+		// filtering stories not has messages
+		$filtered_post_list = array();
 		foreach ( $post_list as $post ) {
-			//if(isset($post->message)){
-
-			$html .= $this->generate_html_frag( $post, $attr['template'] );
-			//}
+			if ( isset( $post->message ) ) {
+				$filtered_post_list[] = $post;
+			}
 		}
 
-		$tp = ceil( count( $raw_post_list ) / $n );
+		$paged_post_list = array_slice( $filtered_post_list, $pn * $n, $n );
+
+		foreach ( $paged_post_list as $post ) {
+			$html .= $this->generate_html_frag( $post, $attr['template'] );
+		}
+
+		$tp = ceil( count( $filtered_post_list ) / $n );
+
 		$html .= $this->generate_paging_navi_html_frag( $t, $pn, $tp );
 
 		return $html;
@@ -429,6 +432,14 @@ SQL;
 		return $html;
 	}
 
+	private function html_pre( $obj ) {
+		$html = "<pre>";
+		$html .= print_r( $obj, true );
+		$html .= "</pre>";
+
+		return $html;
+	}
+
 	function activation() {
 		$this->setup_database();
 		$this->cron_register();
@@ -526,14 +537,6 @@ SQL;
 		$q[] = 'pn';
 
 		return $q;
-	}
-
-	private function html_pre( $obj ) {
-		$html = "<pre>";
-		$html .= print_r( $obj, true );
-		$html .= "</pre>";
-
-		return $html;
 	}
 
 }

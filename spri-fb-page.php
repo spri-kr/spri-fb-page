@@ -168,7 +168,7 @@ SQL;
 
 		$r = $this->insert_page_id_if_new( $page_id );
 
-		if($r){
+		if ( $r ) {
 			$this->do_cron_job();
 		}
 
@@ -212,127 +212,6 @@ SQL;
 		$r   = $wpdb->query( $sql );
 
 		return $r;
-	}
-
-
-	private function generate_tag_filter_html( $page_id ) {
-		$html = <<<HTML
-<form id="tag_filter_form" class="pull-right">
-    <label class="pull-left" for="tag_filter_input"> # 검색 </label>
-    <input class="pull-left" type="hidden" id="page_filter_input" name="page_id" value="{$page_id}">
-    <input class="pull-left" type="text" id="tag_filter_input" name="t">
-    <button class="pull-left" type="submit">검색</button>
-</form>
-
-<div class="clear-both"></div>
-<hr/>
-HTML;
-
-
-		return $html;
-	}
-
-
-	private function get_posts_by_page_id_and_tag( $page_id, $t = "" ) {
-		global $wpdb;
-
-		// TODO preparing query
-		$sql = <<<SQL
-SELECT *
-FROM {$this->post_date_table} WHERE page_id = '{$page_id}'
-SQL;
-
-		if ( $t != "" ) {
-			$sql .= <<<SQL
- AND post_id IN (select post_id FROM {$this->post_tag_table} WHERE post_tag = '{$t}')
-SQL;
-		}
-
-		$sql .= <<<SQL
- ORDER BY post_date DESC
-SQL;
-
-		$post_list = $wpdb->get_results( $sql );
-
-		return $post_list;
-	}
-
-	private function combine_tags_into_posts( $raw_post_list ) {
-		$post_and_tag_list = array();
-
-		//get tags and conbine into post obj
-		foreach ( $raw_post_list as $post ) {
-			$tag_list            = $this->get_tags_by_post_id( $post->post_id );
-			$post->tags          = $tag_list;
-			$post_and_tag_list[] = $post;
-		}
-
-		return $post_and_tag_list;
-
-	}
-
-	private function get_tags_by_post_id( $post_id ) {
-		global $wpdb;
-
-		$tag_list = $wpdb->get_results( "
-			SELECT post_tag FROM {$this->post_tag_table} WHERE post_id = '{$post_id}'
-		" );
-
-		$r_tag_list = array();
-
-		foreach ( $tag_list as $tag ) {
-			$r_tag_list[] = $tag->post_tag;
-		}
-
-		return $r_tag_list;
-	}
-
-	/**
-	 * get post contents
-	 *
-	 * @param $post_list
-	 *
-	 * @return mixed
-	 */
-	private function get_posts_content( $post_list ) {
-
-		foreach ( $post_list as $post ) {
-			$post_content  = $this->fb->api( $post->post_id . "?fields=picture,message,story", "GET" );
-			$post->message = $post_content['message'];
-			$post->story   = $post_content['story'];
-			if ( isset( $post_content['picture'] ) ) {
-				$post->picture = $post_content['picture'];
-			}
-		}
-
-
-		return $post_list;
-	}
-
-	private function generate_html_frag( $post, $template ) {
-
-		$html = "<div class='post'>";
-
-		require( "template/" . $template . ".php" );
-
-		$html .= "</div>";
-
-		return $html;
-
-	}
-
-	private function generate_paging_navi_html_frag( $t, $pn, $tp ) {
-
-		$html = "<div class='page_nav'>";
-
-		foreach ( range( 1, $tp ) as $i ) {
-
-			$html .= "<a class='nav_link' href='?t=$t&pn=$i'>{$i}</a>";
-		}
-
-		$html .= "</div>";
-
-		return $html;
 	}
 
 	/**
@@ -426,6 +305,130 @@ SQL;
 		}
 	}
 
+	private function generate_tag_filter_html( $page_id ) {
+		$html = <<<HTML
+<form id="tag_filter_form" class="pull-right">
+    <label class="pull-left" for="tag_filter_input"> # 검색 </label>
+    <input class="pull-left" type="hidden" id="page_filter_input" name="page_id" value="{$page_id}">
+    <input class="pull-left" type="text" id="tag_filter_input" name="t">
+    <button class="pull-left" type="submit">검색</button>
+</form>
+
+<div class="clear-both"></div>
+<hr/>
+HTML;
+
+
+		return $html;
+	}
+
+	private function get_posts_by_page_id_and_tag( $page_id, $t = "" ) {
+		global $wpdb;
+
+		// TODO preparing query
+		$sql = <<<SQL
+SELECT *
+FROM {$this->post_date_table} WHERE page_id = '{$page_id}'
+SQL;
+
+		if ( $t != "" ) {
+			$sql .= <<<SQL
+ AND post_id IN (select post_id FROM {$this->post_tag_table} WHERE post_tag = '{$t}')
+SQL;
+		}
+
+		$sql .= <<<SQL
+ ORDER BY post_date DESC
+SQL;
+
+		$post_list = $wpdb->get_results( $sql );
+
+		return $post_list;
+	}
+
+	private function combine_tags_into_posts( $raw_post_list ) {
+		$post_and_tag_list = array();
+
+		//get tags and conbine into post obj
+		foreach ( $raw_post_list as $post ) {
+			$tag_list            = $this->get_tags_by_post_id( $post->post_id );
+			$post->tags          = $tag_list;
+			$post_and_tag_list[] = $post;
+		}
+
+		return $post_and_tag_list;
+
+	}
+
+	private function get_tags_by_post_id( $post_id ) {
+		global $wpdb;
+
+		$tag_list = $wpdb->get_results( "
+			SELECT post_tag FROM {$this->post_tag_table} WHERE post_id = '{$post_id}'
+		" );
+
+		$r_tag_list = array();
+
+		foreach ( $tag_list as $tag ) {
+			$r_tag_list[] = $tag->post_tag;
+		}
+
+		return $r_tag_list;
+	}
+
+	/**
+	 * get post contents
+	 *
+	 * @param $post_list
+	 *
+	 * @return mixed
+	 */
+	private function get_posts_content( $post_list ) {
+
+		foreach ( $post_list as $post ) {
+			$post_content  = $this->fb->api( $post->post_id . "?fields=picture,message,story,link", "GET" );
+			$post->message = $post_content['message'];
+			$post->story   = $post_content['story'];
+
+			if ( isset( $post_content['picture'] ) ) {
+				$post->picture = $post_content['picture'];
+			}
+
+			if ( isset( $post_content['link'] ) ) {
+				$post->link = $post_content['link'];
+			}
+		}
+
+
+		return $post_list;
+	}
+
+	private function generate_html_frag( $post, $template ) {
+
+		$html = "<div class='post'>";
+
+		require( "template/" . $template . ".php" );
+
+		$html .= "</div>";
+
+		return $html;
+
+	}
+
+	private function generate_paging_navi_html_frag( $t, $pn, $tp ) {
+
+		$html = "<div class='page_nav'>";
+
+		foreach ( range( 1, $tp ) as $i ) {
+
+			$html .= "<a class='nav_link' href='?t=$t&pn=$i'>{$i}</a>";
+		}
+
+		$html .= "</div>";
+
+		return $html;
+	}
+
 	function activation() {
 		$this->setup_database();
 		$this->cron_register();
@@ -488,10 +491,23 @@ SQL3;
 
 	function deactivation() {
 		$this->cron_clear();
+		$this->unset_databse();
 	}
 
 	function cron_clear() {
 		wp_clear_scheduled_hook( 'spri_fb_page_crawl_cron' );
+	}
+
+	function unset_databse() {
+
+		global $wpdb;
+
+		$sql = <<< SQL
+DROP TABLE $this->post_date_table,$this->post_tag_table, $this->target_page_table;
+SQL;
+
+		$wpdb->query( $sql );
+
 	}
 
 	function add_custom_cron_interval( $schedules ) {

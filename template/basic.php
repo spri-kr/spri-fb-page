@@ -22,15 +22,26 @@ STORY;
 
 
 $html .= <<< ARTICLE
-
 <a href="{$href}" target="{$target}">
 <p class='message'> {$post->message} </p>
 </a>
-<p class='date'>{$temp_date}</p>
-
 ARTICLE;
 
-$html .= "<div class='tag_list'>";
+if(isset($post->link))
+
+$html .= <<< ARTICLE
+<p>
+<a href='{$post->link}' target="{$target}">
+{$post->link}
+</a>
+</p>
+ARTICLE;
+
+$html .= <<< ARTICLE
+<p class='date'>{$temp_date}</p>
+ARTICLE;
+
+$html .= "<div class='tag_list'><p>";
 
 $tags = array_map( function ( $t ) {
 	return "<a class='tag_link' href='?t={$t}'>#{$t}</a>";
@@ -38,6 +49,6 @@ $tags = array_map( function ( $t ) {
 	$post->tags );;
 $html .= implode( ", ", $tags );
 
-$html .= "</div>";
+$html .= "</p></div>";
 
 $html .= "<hr class='clear-both' />";

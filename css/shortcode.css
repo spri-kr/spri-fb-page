@@ -71,3 +71,10 @@
     margin: 1em;
 }
 
+#tag_filter_form label,
+#tag_filter_form input,
+#tag_filter_form button
+{
+    display: inline-block;
+}
+

@@ -315,21 +315,19 @@ SQL;
 
 		$html .= <<< HTML
 <div class="fb-page-link pull-left">
-<a href="http://facebook/{$page_id}">페이스북 페이지 바로가기</a>
+<a href="http://facebook.com/{$page_id}" target="_blank">페이스북 페이지 바로가기</a>
 </div>
 HTML;
-
-
 		return $html;
 	}
 
 	private function generate_tag_filter_html( $page_id ) {
 		$html = <<<HTML
 <form id="tag_filter_form" class="pull-right">
-    <label class="pull-left" for="tag_filter_input"> # 검색 </label>
-    <input class="pull-left" type="hidden" id="page_filter_input" value="{$page_id}">
-    <input class="pull-left" type="text" id="tag_filter_input" name="t">
-    <button class="pull-left" type="submit">검색</button>
+    <label for="tag_filter_input"> # 검색 </label>
+    <input type="hidden" id="page_filter_input" value="{$page_id}">
+    <input type="text" id="tag_filter_input" name="t">
+    <button type="submit">검색</button>
 </form>
 
 <div class="clear-both"></div>

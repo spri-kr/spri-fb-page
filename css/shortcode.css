@@ -1,3 +1,42 @@
+
+.fb-page-link a{
+    background-color: #305891;
+    color: white;
+    padding: 3px 6px;
+    border-radius: 5px;
+    font-size: 0.8em;
+}
+
+.date-link-head{
+    border: thin;
+    border-color: #e5e5e5;
+    border-style: solid;
+    overflow: hidden;
+    margin-bottom: 1em;
+    padding: 0.5em;
+}
+
+.date-link-head p {
+    margin-bottom: 0;
+    font-size: 0.8em !important;
+}
+
+
+.message {
+    white-space: pre-line;
+}
+
+.url_link {
+    text-align: right;
+}
+
+.url_link a{
+    background-color: #305891;
+    color: white;
+    padding: 3px 6px;
+    border-radius: 5px;
+}
+
 .pull-right {
     float: right;
 }
@@ -17,7 +56,6 @@
 }
 
 .tag_list {
-    float: left;
 }
 
 .tag_link {
@@ -25,11 +63,11 @@
     background-color: #999;
     padding: 3px 6px;
     border-radius: 3px;
+    font-size: 0.7em;
 }
 
 .post_thumb{
     float: left;
-    margin-bottom: 1em;
-    margin-right: 1em;
+    margin: 1em;
 }
 

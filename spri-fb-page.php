@@ -174,6 +174,7 @@ SQL;
 		// initialize html snippet
 		$html = "";
 
+		$html .= $this->generate_fb_page_link( $page_id );
 		$html .= $this->generate_tag_filter_html( $page_id );
 
 		$raw_post_list = $this->get_posts_by_page_id_and_tag( $page_id, $t );
@@ -191,9 +192,11 @@ SQL;
 
 		$paged_post_list = array_slice( $filtered_post_list, $pn * $n, $n );
 
+		$html .= "<div class='fb-post-list'>";
 		foreach ( $paged_post_list as $post ) {
 			$html .= $this->generate_html_frag( $post, $attr['template'] );
 		}
+		$html .= "</div>";
 
 		$tp = ceil( count( $filtered_post_list ) / $n );
 
@@ -201,7 +204,6 @@ SQL;
 
 		return $html;
 	}
-
 
 	/**
 	 * @param $page_id
@@ -306,6 +308,19 @@ SQL;
 			}
 
 		}
+	}
+
+	function generate_fb_page_link( $page_id ) {
+		$html = "";
+
+		$html .= <<< HTML
+<div class="fb-page-link pull-left">
+<a href="http://facebook/{$page_id}">페이스북 페이지 바로가기</a>
+</div>
+HTML;
+
+
+		return $html;
 	}
 
 	private function generate_tag_filter_html( $page_id ) {
@@ -432,14 +447,6 @@ SQL;
 		return $html;
 	}
 
-	private function html_pre( $obj ) {
-		$html = "<pre>";
-		$html .= print_r( $obj, true );
-		$html .= "</pre>";
-
-		return $html;
-	}
-
 	function activation() {
 		$this->setup_database();
 		$this->cron_register();
@@ -537,6 +544,14 @@ SQL;
 		$q[] = 'pn';
 
 		return $q;
+	}
+
+	private function html_pre( $obj ) {
+		$html = "<pre>";
+		$html .= print_r( $obj, true );
+		$html .= "</pre>";
+
+		return $html;
 	}
 
 }

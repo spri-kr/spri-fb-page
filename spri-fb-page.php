@@ -436,7 +436,7 @@ SQL;
 
 		$html = "<div class='page_nav'>";
 
-		if ( $t > 0 ) {
+		if ( $tp > 0 ) {
 			foreach ( range( 1, $tp ) as $i ) {
 				$html .= "<a class='nav_link' href='?t=$t&pn=$i'>{$i}</a>";
 			}

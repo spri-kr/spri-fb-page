@@ -43,14 +43,25 @@ $date = <<< ARTICLE
 ARTICLE;
 
 
+# template treat
+$template = "";
+if(isset($_REQUEST['template'])){
+	$template = "&template=".$_REQUEST['template'];
+}
+
 # Tag Block
 $tag_html = "<div class='tag_list clear-both pull-right'><p>";
 $tags     = array_map(
 	function ( $t ) {
-		return "<a class='tag_link' href='?t={$t}'>#{$t}</a>";
+		return "<a class='tag_link' href='?t={$t}__TEMPLATE__'>#{$t}</a>";
 	},
 	$post->tags );;
+
 $tag_html .= implode( ", ", $tags );
+
+// template injection
+$tag_html = str_replace( "__TEMPLATE__", $template, $tag_html );
+
 $tag_html .= "</p></div>";
 
 

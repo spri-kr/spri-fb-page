@@ -318,6 +318,7 @@ SQL;
 <a href="http://facebook.com/{$page_id}" target="_blank">페이스북 페이지 바로가기</a>
 </div>
 HTML;
+
 		return $html;
 	}
 
@@ -435,9 +436,10 @@ SQL;
 
 		$html = "<div class='page_nav'>";
 
-		foreach ( range( 1, $tp ) as $i ) {
-
-			$html .= "<a class='nav_link' href='?t=$t&pn=$i'>{$i}</a>";
+		if ( $t > 0 ) {
+			foreach ( range( 1, $tp ) as $i ) {
+				$html .= "<a class='nav_link' href='?t=$t&pn=$i'>{$i}</a>";
+			}
 		}
 
 		$html .= "</div>";

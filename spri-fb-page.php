@@ -434,11 +434,17 @@ SQL;
 
 	private function generate_paging_navi_html_frag( $t, $pn, $tp ) {
 
+		# template treat
+		$template = "";
+		if(isset($_REQUEST['template'])){
+			$template = "&template=".$_REQUEST['template'];
+		}
+
 		$html = "<div class='page_nav'>";
 
 		if ( $tp > 0 ) {
 			foreach ( range( 1, $tp ) as $i ) {
-				$html .= "<a class='nav_link' href='?t=$t&pn=$i'>{$i}</a>";
+				$html .= "<a class='nav_link' href='?t={$t}&pn={$i}{$template}'>{$i}</a>";
 			}
 		}
 

@@ -327,6 +327,7 @@ HTML;
 <form id="tag_filter_form" class="pull-right">
     <label for="tag_filter_input"> # 검색 </label>
     <input type="hidden" id="page_filter_input" value="{$page_id}">
+    <input type="hidden" name="template" value="{$_REQUEST['template']}">
     <input type="text" id="tag_filter_input" name="t" value="{$_REQUEST['t']}">
     <button type="submit">검색</button>
 </form>
